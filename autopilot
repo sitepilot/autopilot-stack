@@ -1,0 +1,71 @@
+#!/bin/bash
+BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+if [ -t 1 ]; then
+    IT='-it'
+else
+    IT=''
+fi
+
+start() {
+    sed -i "s/AUTOPILOT_USER_ID=1001/APP_USER_ID=$(id -u)/" $BASE/.env
+    sed -i "s/AUTOPILOT_GROUP_ID=1001/APP_USER_GID=$(id -g)/" $BASE/.env
+
+    docker-compose -f $BASE/docker-compose.yml --project-directory $BASE up -d --build
+}
+
+stop() {
+    docker-compose -f $BASE/docker-compose.yml --project-directory $BASE down
+}
+
+restart() {
+    docker-compose -f $BASE/docker-compose.yml --project-directory $BASE restart
+}
+
+pull() {
+    docker-compose -f $BASE/docker-compose.yml --project-directory $BASE pull
+}
+
+case "$1" in
+'start') echo "Starting Autopilot Containers"
+    start
+    echo "DONE!"
+    ;;
+'stop') echo "Stopping Autopilot Containers"
+    stop
+    echo "DONE!"
+    ;;
+'restart') echo "Restarting Autopilot Containers"
+    restart
+    echo "DONE!"
+    ;;
+'install') echo "Installing Autopilot"
+    start $1
+
+    if [ ! -z "$2" ]; then
+        docker exec $IT -w /var/www/html autopilot composer config http-basic.nova.laravel.com $2 $3
+    fi
+
+    docker exec $IT -w /var/www/html autopilot composer install --no-dev
+    docker exec $IT -w /var/www/html autopilot php artisan key:generate
+    docker exec $IT -w /var/www/html autopilot php artisan migrate --seed
+
+    echo "DONE!"
+    ;;
+'update') echo "Updating Autopilot"    
+    pull
+    stop
+    start $1
+
+    docker exec $IT -w /var/www/html autopilot composer install --no-dev
+    docker exec $IT -w /var/www/html autopilot php artisan migrate
+
+    echo "DONE!"
+    ;;
+'exec')
+    docker exec $IT -w /var/www/html autopilot "${@:2}"
+    ;;
+*)
+    docker exec $IT -w /var/www/html autopilot php artisan $@
+    ;;
+esac
