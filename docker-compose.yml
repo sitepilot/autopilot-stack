@@ -97,7 +97,6 @@ services:
 volumes:
   mysql_data:
   redis_data:
-  mysql_data:
   grafana_data:
   prometheus_data:
   alertmanager_data:
