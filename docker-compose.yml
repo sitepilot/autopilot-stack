@@ -101,4 +101,3 @@ volumes:
   grafana_data:
   prometheus_data:
   alertmanager_data:
-  autopilot_data:
