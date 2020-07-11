@@ -13,7 +13,7 @@ jobs:
 
       - name: Build container.
         run: |
-          docker build . --file ./build/autopilot/Dockerfile --tag sitepilot/autopilot:$GITHUB_SHA
+          docker build ./build/autopilot --tag sitepilot/autopilot:$GITHUB_SHA
 
       - name: Test installer.
         run: |
