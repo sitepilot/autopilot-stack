@@ -9,10 +9,6 @@ services:
       - ${AUTOPILOT_HTTP_PORT:-80}:80
       - ${AUTOPILOT_HTTPS_PORT:-443}:443
     environment:
-      APP_ENV: ${APP_ENV:-production}
-      DB_HOST: ${DB_HOST:-autopilot-mysql}
-      APP_DEBUG: ${APP_DEBUG:-false}
-      REDIS_HOST: ${REDIS_HOST:-autopilot-redis}
       AUTOPILOT_USER_ID: ${AUTOPILOT_USER_ID:-1001}
       AUTOPILOT_USER_GID: ${AUTOPILOT_USER_GID:-1001}
       AUTOPILOT_CERT_EMAIL: ${AUTOPILOT_CERT_EMAIL:-internal}
