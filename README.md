@@ -16,9 +16,9 @@ Run the latest version of [Autopilot](https://github.com/sitepilot/autopilot) an
 * Copy `.env.example` to `.env` and modify it to your needs.
 * Run `./autopilot install` to start the Docker containers and install Autopilot.
 
-## Containers
+## Services
 
-The Autopilot Stack consists out of the following containers:
+The Autopilot Stack consists out of the following services:
 
 * [Autopilot](https://github.com/sitepilot/autopilot)
 * [MariaDB 10.4 (by Bitnami)](https://hub.docker.com/r/bitnami/mariadb)
@@ -32,16 +32,11 @@ The Autopilot Stack consists out of the following containers:
 
 * Autopilot - `https://<server-ip>`
 * Grafana - `https://<server-ip>/status/`.
-* Prometheus - `https://<server-ip>/monitor/prometheus`.
-* Alertmanager - `https://<server-ip>/monitor/alertmanager`.
-* Blackbox Exporter - `https://<server-ip>/monitor/blackbox`.
+* Prometheus - `https://<server-ip>/monitor/prometheus/`.
+* Alertmanager - `https://<server-ip>/monitor/alertmanager/`.
+* Blackbox Exporter - `https://<server-ip>/monitor/blackbox/`.
 
-### Login
-
-* Email: `admin@sitepilot.io`
-* Password: `supersecret`
-
-*NOTE: The monitor service URLS are protected with HTTP Basic Authentication. User: `autopilot`, password: `supersecret`.*
+*NOTE: The monitor service URLS are protected with HTTP Basic Authentication. Default user: `autopilot`, password: `supersecret`.*
 
 ## Configuration
 
