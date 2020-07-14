@@ -16,3 +16,8 @@ jobs:
           cp .env.example .env
           ./autopilot install ${{ secrets.NOVA_USERNAME }} ${{ secrets.NOVA_PASSWORD }}
           ./autopilot update
+      
+      - name: "Failure: dump .env file"
+        if: failure()
+        run: |
+          cat .env
