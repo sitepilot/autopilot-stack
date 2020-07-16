@@ -16,6 +16,11 @@ Run the latest version of [Autopilot](https://github.com/sitepilot/autopilot) an
 * Copy `.env.example` to `.env` and modify it to your needs.
 * Run `./autopilot install` to start the Docker containers and install Autopilot.
 
+## Update
+
+* Pull the latest configuration with `git pull`.
+* Run `./autopilot update` to update the Docker containers and update Autopilot.
+
 ## Services
 
 The Autopilot Stack consists out of the following services:
