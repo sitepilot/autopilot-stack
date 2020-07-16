@@ -14,6 +14,7 @@ jobs:
       - name: Test installer
         run: |
           cp .env.example .env
+          sed -i "s/APP_ENV=production/APP_ENV=testing/" .env
           ./autopilot install ${{ secrets.NOVA_USERNAME }} ${{ secrets.NOVA_PASSWORD }}
           ./autopilot update
       
