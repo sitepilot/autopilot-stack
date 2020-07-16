@@ -44,6 +44,9 @@ case "$1" in
 'install') echo "Installing Autopilot"
     start $1
 
+    echo "Waiting for containers..."
+    sleep 10
+
     if [ ! -z "$2" ]; then
         docker exec $IT -w /var/www/html autopilot composer config http-basic.nova.laravel.com $2 $3
     fi
@@ -58,6 +61,9 @@ case "$1" in
     pull
     stop
     start $1
+
+    echo "Waiting for containers..."
+    sleep 10
 
     docker exec $IT -w /var/www/html autopilot composer install --no-dev
     docker exec $IT -w /var/www/html autopilot php artisan migrate
