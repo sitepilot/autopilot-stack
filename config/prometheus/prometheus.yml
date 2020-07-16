@@ -18,7 +18,7 @@ scrape_configs:
           - "/opt/bitnami/prometheus/conf/monitor/servers.json"
 
   - job_name: "health"
-    metrics_path: /probe
+    metrics_path: /monitor/blackbox/probe
     scrape_interval: 5m
     params:
       module: [http_2xx]
@@ -34,7 +34,7 @@ scrape_configs:
         replacement: autopilot-blackbox:9115
 
   - job_name: "domains"
-    metrics_path: /probe
+    metrics_path: /monitor/blackbox/probe
     scrape_interval: 5m
     params:
       module: [http_2xx]
