@@ -7,6 +7,7 @@ groups:
         labels:
           severity: critical
         annotations:
+          identifier: "{{ $labels.instance }}"
           summary: "{{ $labels.name }} - {{ $labels.instance }} - HTTP failure"
           description: "HTTP status code is not 200-399. Value: {{ $value }}"
 
@@ -16,6 +17,7 @@ groups:
         labels:
           severity: warning
         annotations:
+          identifier: "{{ $labels.instance }}"
           summary: "{{ $labels.name }} - {{ $labels.instance }} - slow HTTP"
           description: "HTTP request took more than 1s. Value: {{ $value }}"
 
@@ -25,6 +27,7 @@ groups:
         labels:
           severity: warning
         annotations:
+          identifier: "{{ $labels.instance }}"
           summary: "{{ $labels.name }} - {{ $labels.instance }} - SSL certificate will expire soon"
           description: "SSL certificate expires in 30 days."
 
@@ -34,6 +37,7 @@ groups:
         labels:
           severity: critical
         annotations:
+          identifier: "{{ $labels.instance }}"
           summary: "{{ $labels.name }} - {{ $labels.instance }} - SSL certificate will expire soon"
           description: "SSL certificate expires in 3 days."
 
@@ -43,6 +47,7 @@ groups:
         labels:
           severity: critical
         annotations:
+          identifier: "{{ $labels.instance }}"
           summary: "{{ $labels.name }} - {{ $labels.instance }} - SSL certificate expired"
           description: "SSL certificate has expired already."
 
@@ -52,5 +57,6 @@ groups:
         labels:
           severity: warning
         annotations:
+          identifier: "{{ $labels.instance }}"
           summary: "{{ $labels.name }} - {{ $labels.instance }} - slow ping"
           description: "Blackbox ping took more than 1s. Value: {{ $value }}"
