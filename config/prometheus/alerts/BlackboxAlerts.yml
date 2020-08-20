@@ -9,7 +9,7 @@ groups:
         annotations:
           identifier: "{{ $labels.instance }}"
           summary: "{{ $labels.name }} - {{ $labels.instance }} - HTTP failure"
-          description: "HTTP status code is not 200-399. Value: {{ $value }}"
+          description: "HTTP status code is not 200-399.
 
       - alert: BlackboxProbeSlowHttp
         expr: avg_over_time(probe_http_duration_seconds[1m]) > 1
@@ -19,27 +19,27 @@ groups:
         annotations:
           identifier: "{{ $labels.instance }}"
           summary: "{{ $labels.name }} - {{ $labels.instance }} - slow HTTP"
-          description: "HTTP request took more than 1s. Value: {{ $value }}"
+          description: "HTTP request took more than 1s.
 
       - alert: BlackboxSslCertificateWillExpireSoon
-        expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 30
+        expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 7
         for: 5m
         labels:
           severity: warning
         annotations:
           identifier: "{{ $labels.instance }}"
           summary: "{{ $labels.name }} - {{ $labels.instance }} - SSL certificate will expire soon"
-          description: "SSL certificate expires in 30 days."
+          description: "SSL certificate expires in 7 days."
 
       - alert: BlackboxSslCertificateWillExpireSoon
-        expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 3
+        expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 2
         for: 5m
         labels:
           severity: critical
         annotations:
           identifier: "{{ $labels.instance }}"
           summary: "{{ $labels.name }} - {{ $labels.instance }} - SSL certificate will expire soon"
-          description: "SSL certificate expires in 3 days."
+          description: "SSL certificate expires in 2 days."
 
       - alert: BlackboxSslCertificateExpired
         expr: probe_ssl_earliest_cert_expiry - time() <= 0
@@ -49,7 +49,7 @@ groups:
         annotations:
           identifier: "{{ $labels.instance }}"
           summary: "{{ $labels.name }} - {{ $labels.instance }} - SSL certificate expired"
-          description: "SSL certificate has expired already."
+          description: "SSL certificate has expired."
 
       - alert: BlackboxProbeSlowPing
         expr: avg_over_time(probe_icmp_duration_seconds[1m]) > 1
@@ -59,4 +59,4 @@ groups:
         annotations:
           identifier: "{{ $labels.instance }}"
           summary: "{{ $labels.name }} - {{ $labels.instance }} - slow ping"
-          description: "Blackbox ping took more than 1s. Value: {{ $value }}"
+          description: "Ping took more than 1s."
