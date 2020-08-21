@@ -2,7 +2,7 @@ groups:
   - name: Blackbox
     rules:
       - alert: BlackboxProbeHttpFailure
-        expr: probe_http_status_code <= 199 OR probe_http_status_code >= 400"
+        expr: probe_http_status_code <= 199 OR probe_http_status_code >= 400
         for: 5m
         labels:
           severity: critical
