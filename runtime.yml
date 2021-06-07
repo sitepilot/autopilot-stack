@@ -1,0 +1,15 @@
+locations:
+  - path: /svc/mail/
+    proxy: http://mailhog:8025/
+
+  - path: /svc/phpmyadmin/
+    proxy: http://phpmyadmin:8080/
+
+supervisor:
+  - name: horizon
+    command: /home/runtime/public/artisan horizon
+    directory: /home/runtime/public
+
+  - name: scheduler
+    command: /home/runtime/public/artisan schedule:work
+    directory: /home/runtime/public

@@ -1,62 +1,83 @@
 # Autopilot Stack
 
-![Autopilot Stack](https://github.com/sitepilot/autopilot-stack/workflows/run-tests/badge.svg)
-
-Run the latest version of [Autopilot](https://github.com/sitepilot/autopilot) and additional services with Docker and Docker Compose.
+This stack can be used for a standalone installation of Autopilot.
 
 ## Requirements
 
-* [Laravel Nova License](https://nova.laravel.com/)
-* [Docker Engine](https://docs.docker.com/get-docker/) version 17.05 or newer
-* [Docker Compose](https://docs.docker.com/compose/install/) version 1.20.0 or newer
+* [Ubuntu 20.04](https://ubuntu.com/)
+* [Docker](https://docs.docker.com/engine/install/ubuntu/)
+* [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Installation
+## Install
 
-* Clone this repository.
-* Copy `.env.example` to `.env` and modify it to your needs.
-* Run `./autopilot install` to start the Docker containers and install Autopilot.
-
-## Update
-
-* Pull the latest configuration with `git pull`.
-* Run `./autopilot update` to update the Docker containers and update Autopilot.
-
-## Services
-
-The Autopilot Stack consists out of the following services:
-
-* [Autopilot](https://github.com/sitepilot/autopilot)
-* [MariaDB 10.4 (by Bitnami)](https://hub.docker.com/r/bitnami/mariadb)
-* [Redis 6.0 (by Bitnami)](https://hub.docker.com/r/bitnami/redis)
-* [Grafana 7 (by Bitnami)](https://hub.docker.com/r/bitnami/grafana)
-* [Prometheus 2 (by Bitnami)](https://hub.docker.com/r/bitnami/grafana)
-* [Alertmanager 0.21.0 (by Bitnami)](https://hub.docker.com/r/bitnami/alertmanager)
-* [Blackbox Exporter 0.17.0 (by Bitnami)](https://hub.docker.com/r/bitnami/blackbox-exporter)
-
-## Access
-
-* Autopilot - `https://<server-ip>`
-* Grafana - `https://<server-ip>/status/`.
-* Prometheus - `https://<server-ip>/monitor/prometheus/`.
-* Alertmanager - `https://<server-ip>/monitor/alertmanager/`.
-* Blackbox Exporter - `https://<server-ip>/monitor/blackbox/`.
-
-*NOTE: The monitor service URLS are protected with HTTP Basic Authentication. Default user: `autopilot`, password: `supersecret`.*
+1. Clone this repository to your computer or server.
+   ```bash
+   git clone git@github.com:sitepilot/autopilot-stack.git 
+   ```
+1. Create a `.env` file in the root of the project with the contents of [.env.example](https://github.com/sitepilot/autopilot/blob/main/.env.example) from the Autopilot repository.
+1. Login to the GitHub container registry with your GitHub username and [a personal access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) as password (scope: `read:packages`). 
+   ```bash
+   docker login ghcr.io
+   ```
+1. Start the containers.
+   ```bash
+   ./autopilot up -d
+   ```
+1. Migrate the database.
+   ```bash
+   ./autopilot artisan migrate
+   ```
+1. Generate application key.
+   ```bash
+   ./autopilot artisan key:generate
+   ```
+1. Navigate to `http://<ip-address>/register` and register a new user.
 
 ## Configuration
 
-### Environment Variables
+By default, Docker Compose reads two files, a `docker-compose.yml` and an optional `docker-compose.override.yml` file. By convention, the `docker-compose.yml` contains the base configuration for the Autopilot. The override file, as its name implies, can contain configuration overrides for existing services or entirely new services. All additional data (for example configuration files or volume mounts) should be created in the `custom` folder. More information about overriding container configuration can be found [here](https://docs.docker.com/compose/extends/).
 
-Refer to the [Autopilot repository](https://github.com/sitepilot/autopilot) for a list of available environment variables.
+## Upgrade
 
-### Service Configuration
+1. Stop the containers.
+   ```bash
+   ./autopilot down
+   ```
+1. Pull the latest stack updates.
+   ```bash
+   git pull
+   ```
+1. Pull the latest container builds.
+   ```bash
+   ./autopilot pull 
+   ```
+1. Start the containers.
+   ```bash
+   ./autopilot up -d
+   ```
+1. Migrate the database.
+   ```bash
+   ./autopilot artisan migrate
+   ```
 
-Create a `docker-compose.override.yml` file to override the configuration of any service in the Autopilot Stack and run `./autopilot restart` to restart all services. 
+## Commands
 
-Example:
+```bash
+# Start containers
+./autopilot up -d
 
-```yaml
-alertmanager:
-  volumes:
-    - "./custom/alertmanager/alertmanager.yml:/opt/bitnami/alertmanager/conf/config.yml"
+# Stop containers
+./autopilot down
+
+# Shell access
+./autopilot bash
+
+# Autopilot CLI
+./autopilot cli
+
+# PHP
+./autopilot php --help
+
+# Reload runtime
+./autopilot runtime reload
 ```
