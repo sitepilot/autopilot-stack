@@ -19,8 +19,8 @@ case "$1" in
         docker-compose pull "${@:2}"
         ;;
     cli)
-        docker-compose exec -e SIP_CLI=true sip artisan "${@:2}"
+        docker-compose exec -e AUTOPILOT_CLI=true autopilot artisan "${@:2}"
         ;;
     *)
-        docker-compose exec sip "$@"
+        docker-compose exec autopilot "$@"
 esac
